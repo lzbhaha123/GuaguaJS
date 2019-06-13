@@ -1,0 +1,36 @@
+<html>
+<head>
+</head>
+<body>
+<script src="guagua.js"></script>
+<div id="lottoDiv">
+</div>
+<script>
+
+
+var prize1 = new Prize(1,20,"img/Prize_Logo_Color.jpg");
+var prize2 = new Prize(2,30,"img/prize-money-300x271.jpg");
+var prize3 = new Prize(3,50,"img/static_graphic.png");
+var prizes = [];
+prizes.push(prize1);
+prizes.push(prize2);
+prizes.push(prize3);
+var lottoWidth = 150;
+var lottoHeight = 50;	
+var ld = document.getElementById("lottoDiv");
+var lotto = LottoGenerator(lottoWidth,lottoHeight,prizes,'#696969');
+ld.appendChild(lotto.div);
+var finalPrize = lotto.getSelectedPrize();
+var getResultOnce = true;
+setInterval(function(){
+	if(getResultOnce&&lotto.getResult()){
+		getResultOnce = false;
+		alert("You have got Prize No."+finalPrize.id);
+	}
+},100);
+
+
+
+</script>
+
+</body>
