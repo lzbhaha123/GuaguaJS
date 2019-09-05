@@ -7,7 +7,8 @@
 </div>
 <script>
 
-
+//Adding prizes 
+//Parameter: 1.Id  2.Possibility  3.Prize picture
 var prize1 = new Prize(1,20,"img/Prize_Logo_Color.jpg");
 var prize2 = new Prize(2,30,"img/prize-money-300x271.jpg");
 var prize3 = new Prize(3,50,"img/static_graphic.png");
@@ -15,21 +16,28 @@ var prizes = [];
 prizes.push(prize1);
 prizes.push(prize2);
 prizes.push(prize3);
+
+// Generating lotto
 var lottoWidth = 150;
 var lottoHeight = 50;	
 var ld = document.getElementById("lottoDiv");
+
+//Parameter: 1.Width  2.Height  3.Prize list   4.The colour of the cover
 var lotto = LottoGenerator(lottoWidth,lottoHeight,prizes,'#696969');
+
+// Adding lotto into webpage
 ld.appendChild(lotto.div);
+
+// Binding function that reaction when user has cleaned cover
+lotto.bindPrizeAction(displayPrize);
+
+// Getting the prize which has been selected randomly
 var finalPrize = lotto.getSelectedPrize();
-var getResultOnce = true;
-setInterval(function(){
-	if(getResultOnce&&lotto.getResult()){
-		getResultOnce = false;
-		alert("You have got Prize No."+finalPrize.id);
-	}
-},100);
 
-
+// Reaction when user has cleaned cover
+function displayPrize(){
+	alert("You have got Prize No."+finalPrize.id);
+}
 
 </script>
 

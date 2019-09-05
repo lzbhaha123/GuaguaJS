@@ -5,16 +5,12 @@ class Prize{
 			this.img = img;
 		}
 	}
-function LottoGenerator(lottoWidth,lottoHeight,prizes,color){
+function LottoGenerator(lottoWidth,lottoHeight,prizes,color="#696969"){
 	class Lotto{
-		constructor(div = null,finish = false){
+		constructor(div = null){
 			this.div = div;
-			this.finish = finish;
 		}
 		getSelectedPrize(){}
-		getResult(){
-			return this.finish;
-		}
 	}
 	var lotto = new Lotto(); 
 	var prizeList = [];
@@ -23,7 +19,7 @@ function LottoGenerator(lottoWidth,lottoHeight,prizes,color){
 			prizeList.push(prizes[j]);
 		}
 	}
-
+	var getResultOnce = true;
 	var finalPrize = prizeList[Math.round(Math.random()*100)];
 
 	var lottoDiv = document.createElement("div");
@@ -49,6 +45,12 @@ function LottoGenerator(lottoWidth,lottoHeight,prizes,color){
 	coatCtx.beginPath();
 	coatCtx.fillStyle = color;
 	coatCtx.fillRect(0, 0, lottoWidth*2, lottoHeight*4);
+	var mEvent = new CustomEvent("getPrize");
+	lotto.bindPrizeAction = function(prizeMethod){
+		lottoDiv.addEventListener("getPrize",prizeMethod);
+		
+	}
+
 
 	coatCanvas.onmousedown = function(){
 		coatCanvas.onmousemove = function(){
@@ -70,7 +72,10 @@ function LottoGenerator(lottoWidth,lottoHeight,prizes,color){
             }
         }
 		if (cleanedPoint >= pxNumber * 1 / 3) {
-			lotto.finish = true;
+			if(getResultOnce){
+				lottoDiv.dispatchEvent(mEvent);
+				getResultOnce = false;
+			}
 		}
 		
 	}}
